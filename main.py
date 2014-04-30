@@ -9,6 +9,7 @@ from common.config import Config
 import threading
 import signal
 import sys
+import os
 
 ### handle ctrl-c ######################################
 
@@ -22,6 +23,7 @@ signal.signal(signal.SIGINT, signal_handler)
 ### Configuration ######################################
 
 CONFIG_FILE = "config.json"
+PID_FILE = "rfid_door.pid"
 
 #STATUS_LED_PIN = 7
 #DOOR_RELAY_PIN = 11
@@ -109,6 +111,11 @@ class RfidDoor:
 
 
 if __name__ == "__main__":
+    # first, write the pid in a file 
+    with open(PID_FILE, 'w') as pid_file:
+        pid_file.write(str(os.getpid()))
+
+    # then, start to play with rfid and the door :)
     rfid_door = RfidDoor()
     rfid_door.listen_rfid()
     

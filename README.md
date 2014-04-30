@@ -3,6 +3,32 @@ rpi_rfid_door
 
 Open some motorized doors with rfid items
 
+This is a project for the Raspberry Pi system.
+
+
+
+Rpi configuration
+-----------------
+
+In order to use the dedicated UART pins on the raspberry pi, first they have to be removed from their default application which is debugging.
+To do this edit */boot/cmdline.txt* and */etc/inittab* and replace ::
+
+    dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait 
+
+by ::
+
+    dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait 
+
+Then edit */etc/inittab* and comment this line: ::
+
+    0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100
+
+became: ::
+
+    #0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100
+
+
+
 Dependencies
 ------------
 

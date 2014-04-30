@@ -52,3 +52,6 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# dedicated to this project
+*.pid
+external_libs/

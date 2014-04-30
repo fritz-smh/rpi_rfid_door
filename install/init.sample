@@ -1,0 +1,32 @@
+#!/bin/bash
+# /etc/init.d/rfid_door
+
+### BEGIN INIT INFO
+# Provides:          rfid_door
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Example initscript
+# Description:       This service is used to handle a door with rfid
+### END INIT INFO
+
+
+case "$1" in 
+    start)
+        echo "Starting rfid door"
+        export PYTHONPATH=___INSTALL_PATH___/external_libs/
+        python ___INSTALL_PATH___/main.py
+        # notice that a pid file will be created as ___INSTALL_PATH___/rfid_door.pid
+        ;;
+    stop)
+        echo "Stopping rfid door"
+        kill $(cat ___INSTALL_PATH___/rfid_door.pid)
+        ;;
+    *)
+        echo "Usage: /etc/init.d/rfid_door start|stop"
+        exit 1
+        ;;
+esac
+
+exit 0
