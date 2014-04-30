@@ -3,7 +3,7 @@
                "door_relay_pin" : 11,
                "serial_rfid_device" : "/dev/ttyAMA0",
                "smtp_server" : "smtp.free.fr",
-               "my_email" : "frederic.le.roy@free.fr"
+               "my_email" : "someone@free.fr"
              },
   "granted" : [ "1761ab7a"
               ]

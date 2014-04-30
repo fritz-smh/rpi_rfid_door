@@ -25,13 +25,6 @@ signal.signal(signal.SIGINT, signal_handler)
 CONFIG_FILE = "config.json"
 PID_FILE = "rfid_door.pid"
 
-#STATUS_LED_PIN = 7
-#DOOR_RELAY_PIN = 11
-#SERIAL_RFID_DEVICE = "/dev/ttyAMA0"
-#SMTP_SERVER = "smtp.free.fr"
-#MY_EMAIL = "frederic.le.roy@free.fr"
-
-
 ### Classes ############################################
 class RfidDoor:
 
@@ -84,9 +77,6 @@ class RfidDoor:
         """ A rfid item has been detected : process it
             @param rfid_id : id of the rfid item
         """
-        print("Rfid item detected. Id is '{0}'".format(rfid_id))
-        # TODO :this is just some test right now
-        #if rfid_id == "1761ab7a":
         if self.security.is_granted(rfid_id):
             self.access_granted(rfid_id)
         else:
