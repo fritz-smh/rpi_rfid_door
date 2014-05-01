@@ -22,7 +22,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 ### Configuration ######################################
 
-CONFIG_FILE = "config.json"
+CONFIG_FILE = "{0}/config.json".format(os.path.dirname(os.path.abspath(__file__)))
 PID_FILE = "rfid_door.pid"
 
 ### Classes ############################################
