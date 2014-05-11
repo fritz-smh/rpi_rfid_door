@@ -39,7 +39,8 @@ This library will be installed during the install process ;)
 How to wire it ?
 ----------------
 
-TODO : explain
+![how to wire it] (rfid_door_bb.png)
+
 
 Install
 -------
