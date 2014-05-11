@@ -9,6 +9,13 @@ class MailSender:
         self.smtp_host = smtp_host
 
     def send(self, subject, sender, to, body):
+        """ Call the real sending fucntion as a Thread
+        """
+        # TODO !
+        print("Email sending disabled !")
+        pass
+
+    def send_in_background(self, subject, sender, to, body):
         # Prepare the email
         msg = MIMEText(body)
         msg['Subject'] = subject
