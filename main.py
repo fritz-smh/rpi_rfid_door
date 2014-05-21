@@ -91,7 +91,7 @@ class RfidDoor:
         print("Access granted! Opening the door")
         self.mail_sender.send("Rfid door : access granted!", self.my_email, self.my_email, "Access granted for {0}".format(rfid_id))
         # for a hormann garage door motor, just do a pulse of 1s
-        self.door_relay.pulse()
+        self.door_relay_no.pulse()
 
     def access_denied(self, rfid_id):
         """ Access denied

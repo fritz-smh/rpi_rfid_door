@@ -16,10 +16,14 @@ GROUP=$(ls -ld $FOLDER | awk '{print $4}')
 ### external libraries related tasks #########################
 
 echo "Install external libs ..."
+if [ -d $FOLDER/external_libs/ ] ; then
+    echo "- cleaning the current external libs folder..."
+    rm -Rf $FOLDER/external_libs/
+fi
 mkdir $FOLDER/external_libs/
 cd $FOLDER/external_libs/
 
-echo "- rpi_libs (from https://github.com/fritz-smh/rpi_libs.git) ..."
+echo "- download rpi_libs (from https://github.com/fritz-smh/rpi_libs.git) ..."
 git clone https://github.com/fritz-smh/rpi_libs.git
 touch $FOLDER/external_libs/__init__.py
 chown -R $USER:$GROUP $FOLDER/external_libs/
