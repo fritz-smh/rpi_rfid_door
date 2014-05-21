@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 
 from rpi_libs.rfid_serial_mfrc522 import RfidSerialMFRC522
 from common.config import Config
