@@ -11,11 +11,13 @@ import threading
 import signal
 import sys
 import os
+import logging
+
 
 ### handle ctrl-c ######################################
 
 def signal_handler(signal, frame):
-    print("You pressed Ctrl+C!")
+    logging.error("You pressed Ctrl+C!")
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -32,7 +34,9 @@ class RfidDoor:
     def __init__(self):
         """ Init the engine
         """
+        logging.info("Starting RfidDoor")
         # Read the config
+        logging.info("Read the configuration")
         config = Config(CONFIG_FILE)
         status_led_pin = int(config.get_value_for("status_led_pin"))
         door_relay_pin = int(config.get_value_for("door_relay_pin"))
@@ -41,32 +45,38 @@ class RfidDoor:
         self.my_email = config.get_value_for("my_email")
 
         # Define the status led
+        logging.info("Setup status led")
         self.status_led = Led("Status led", status_led_pin)
 
         # make the led blink 5 times quickly to say it is starting
         self.status_led.blink_n(5)
 
         # Define the rfid device
+        logging.info("Setup rfid device")
         self.rfid = RfidSerialMFRC522(serial_rfid_device)
 
         # make the led blink 3 seconds to say the rfid has been successfully initiated
         self.status_led.blink(3000)
 
         # Define the relay 
+        logging.info("Setup relay")
         self.door_relay = Relay("Door relay", door_relay_pin)
 
         # Create the mail sender
+        logging.info("Setup email sender")
         self.mail_sender = MailSender(smtp_server)
         # send an email to tell the script is starting (will help to detect some unusual reboot)
         self.mail_sender.send("Rfid door : starts!", self.my_email, self.my_email, "Rfid door script has just started")
  
         # Init the security manager
+        logging.info("Setup the security manager")
         self.security = Security(CONFIG_FILE)
 
 
     def listen_rfid(self):
         """ Listen to the rfid device
         """
+        logging.info("Start listening to the rfid device (eternal loop)")
         rfid_thread = threading.Thread(None,
                                        self.rfid.read,
                                        "rfid_read",
@@ -88,7 +98,7 @@ class RfidDoor:
         """ Access granted
         """
         self.status_led.blink(2000)
-        print("Access granted! Opening the door")
+        logging.info("Access granted for '{0}'! Opening the door".format(rfid_id))
         self.mail_sender.send("Rfid door : access granted!", self.my_email, self.my_email, "Access granted for {0}".format(rfid_id))
         # for a hormann garage door motor, just do a pulse of 1s
         self.door_relay.pulse_no()
@@ -97,11 +107,15 @@ class RfidDoor:
         """ Access denied
         """
         self.status_led.blink_n(5)
-        print("Access denied!")
+        logging.warning("Access denied for '{0}'!".format(rfid_id))
         self.mail_sender.send("Rfid door : access denied!", self.my_email, self.my_email, "Access denied for {0}".format(rfid_id))
 
 
 if __name__ == "__main__":
+    # logging
+    logging.basicConfig(filename='rfid_door.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+    logging.info('Starting!')
+
     # first, write the pid in a file 
     with open(PID_FILE, 'w') as pid_file:
         pid_file.write(str(os.getpid()))
@@ -109,6 +123,7 @@ if __name__ == "__main__":
     # then, start to play with rfid and the door :)
     rfid_door = RfidDoor()
     rfid_door.listen_rfid()
+    logging.info('Finished')
     
 
 
