@@ -26,7 +26,8 @@ signal.signal(signal.SIGINT, signal_handler)
 ### Configuration ######################################
 
 CONFIG_FILE = "{0}/config.json".format(os.path.dirname(os.path.abspath(__file__)))
-PID_FILE = "rfid_door.pid"
+PID_FILE = "/var/log/rfid_door/rfid_door.pid"
+LOG_FOLDER = "/var/log/rfid_door/"
 
 ### Classes ############################################
 class RfidDoor:
@@ -113,7 +114,7 @@ class RfidDoor:
 
 if __name__ == "__main__":
     # logging
-    logging.basicConfig(filename='rfid_door.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+    logging.basicConfig(filename='{0}/rfid_door.log'.format(LOG_FOLDER), level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
     logging.info('Starting!')
 
     # first, write the pid in a file 

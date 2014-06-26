@@ -28,6 +28,12 @@ git clone https://github.com/fritz-smh/rpi_libs.git
 touch $FOLDER/external_libs/__init__.py
 chown -R $USER:$GROUP $FOLDER/external_libs/
 
+### log folder and pid related tasks #########################
+
+echo "Create folder /var/log/rfid_door"
+mkdir -p /var/log/rfid_door
+chown -R $USER:$GROUP /var/log/rfid_door
+
 ### init.d related tasks #####################################
 
 # copy the init.d file
