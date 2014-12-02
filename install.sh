@@ -33,6 +33,7 @@ chown -R $USER:$GROUP $FOLDER/external_libs/
 echo "Create folder /var/log/rfid_door"
 mkdir -p /var/log/rfid_door
 chown -R $USER:$GROUP /var/log/rfid_door
+chmod -R 777 /var/log/rfid_door
 
 ### init.d related tasks #####################################
 
